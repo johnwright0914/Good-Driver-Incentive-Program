@@ -1,0 +1,57 @@
+{% extends 'gdrp/base.html'%}
+{% load static %}
+{% block content %}
+<div>
+<h1>Welcome to the Admin Login Page!</h1>
+<p2>
+<form method="post", class="login-form">
+	{% csrf_token %}
+	{{ form.as_p }}
+	<p><button type="submit">Login</button><p>
+</form>
+</p2>
+</div>
+
+<div class="g-signin2" data-onsuccess="onSignIn"></div>
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+<meta name="google-signin-client_id" content="'707081518512-efqnpuod4o1aoqnd8un716s67i5g71i3.apps.googleusercontent.com">
+
+
+<!--Google Sign In Logic-->
+<script>
+function onSignIn(googleUser) {
+    var profile = googleUser.getBasicProfile();
+    console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+    console.log('Name: ' + profile.getName());
+    console.log('Image URL: ' + profile.getImageUrl());
+    console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+  }
+</script>
+
+  <a href="#" onclick="signOut();">Sign out</a>
+<script>
+  function signOut() {
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+      console.log('User signed out.');
+    });
+  }
+</script>
+<!--End Google Sign In Logic-->
+
+<p>Forgot password?</p>
+<a href="{% url 'gdrp:password_reset' %}"><button>Reset Password</button></a>
+
+
+<footer>
+<p5>If you have any questions, or concerns regarding the program please contact us at email goes here.</p5>
+<div>
+    <a href="{% url 'gdrp:tos' %}">Terms of Service</a><br>
+    <a href="{% url 'gdrp:privacy_policy' %}">Privacy Policy</a>
+</div>
+</footer>
+
+</body>
+</html>
+
+{% endblock %}

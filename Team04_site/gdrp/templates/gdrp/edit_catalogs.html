@@ -1,0 +1,18 @@
+{% extends 'gdrp/base.html' %}
+
+{% block content %}
+
+<ul class="item-list">
+{% for catalog in catalogs %}
+   <li class="item-list">
+        <p>Catalog {{ catalog.id }}</p>
+        <form method="POST">
+            <input type="hidden" name="cat_id" value="{{ catalog.id }}">
+            <input type="hidden" name="next" value="{{ request.path }}">
+            <button type="submit" class="item-list">Delete Catalog</button>
+        </form>
+    </li>
+{% endfor %}
+</ul>
+
+{% endblock %}

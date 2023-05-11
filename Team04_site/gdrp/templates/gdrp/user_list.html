@@ -1,0 +1,69 @@
+{% extends 'gdrp/base.html' %}
+{% load auth_extras %}
+
+{% block content %}
+    <h1> Good Driver Rewards Users </h1>
+    <table>
+        <thread>
+            <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>Phone Number</th>
+                <th>Status</th>
+                <th>Add points</th>
+                <th>Remove Points</th>
+                <th>Remove all Points</th>
+            </tr>
+        </thread>
+        <tbody>
+        {% for u in Users %}
+            <tr>
+                <td>{{ u.id }}</td>
+                <td>{{ u.username }}</td>
+                <td>{{ u.first_name }}</td>
+                <td>{{ u.last_name }}</td>
+                <td>{{ u.email }}</td>
+                <td>
+                    {% if u.is_authenticated %}
+                    {% if user|has_group:"admin"%}
+                        <form method="POST" action="{% url 'gdrp:logout_user' u.id %}">
+                            {% csrf_token %}
+                            <button type="submit">Logout</button>
+                        </form>
+                    {% else %}
+                        Logged Off
+                    {% endif %}
+                    {% endif %}
+                </td>
+                <td>
+                    <form method="post" action="{% url 'gdrp:add_points' u.id %}">
+                        {% csrf_token %}
+                        <input type="number" id="points-{{ u.id }}" name="num_points" min=0>
+                        <button type="submit" class="btn btn-primary">Add points</button>
+                    </form>
+                </td>
+                <td>
+                    <form method="post" action="{% url 'gdrp:remove_points' u.id %}">
+                        {% csrf_token %}
+                        <input type="number" id="points-{{ u.id }}" name="num_points" min=0>
+                        <button type="submit" class="btn btn-primary">Remove points</button>
+                    </form>
+                </td>
+                <td>
+                    <form method="post" action="{% url 'gdrp:zero_points' u.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary">Remove all points</button>
+                    </form>
+                </td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="5">No Users Found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

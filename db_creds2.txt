@@ -1,0 +1,7 @@
+new database creds
+Username:
+admin
+password:
+r2GfDqhWP1fQh1aHVi6Z
+endpoint:
+team04-mysql-database.cpin0o6jvads.us-east-2.rds.amazonaws.com

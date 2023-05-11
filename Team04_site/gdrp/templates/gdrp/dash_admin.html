@@ -1,0 +1,61 @@
+{% extends 'gdrp/base.html' %}
+{% load auth_extras %}
+  {% block content %}
+    <div class="content">
+        {% if user.is_authenticated %}
+                <h1>Hello Admin</h1>
+                {% if message %}
+                <p>{{ message }}</p>
+                {% endif %}
+                <h3>Download Logs</h3>
+                <form action="{% url 'gdrp:download_logs' %}" method="get">
+                    <label for="start_date">Start date:</label>
+                    <input type="date" id="start_date" name="start_date">
+
+                    <label for="end_date">End date:</label>
+                    <input type="date" id="end_date" name="end_date">
+                    <button type="submit">Download Logs</button>
+                </form>
+                <form action="{% url 'gdrp:download_login_attempts' %}" method="get">
+                    <label for="start_date">Start date:</label>
+                    <input type="date" id="start_date" name="start_date">
+
+                    <label for="end_date">End date:</label>
+                    <input type="date" id="end_date" name="end_date">
+                    <button type="submit">Download Login Attempts</button>
+                </form>
+                <form action="{% url 'gdrp:download_account_creations' %}" method="get">
+                    <label for="start_date">Start date:</label>
+                    <input type="date" id="start_date" name="start_date">
+
+                    <label for="end_date">End date:</label>
+                    <input type="date" id="end_date" name="end_date">
+                    <button type="submit">Download Account Creation Logs</button>
+                </form>
+                <form action="{% url 'gdrp:download_password_changes' %}" method="get">
+                    <label for="start_date">Start date:</label>
+                    <input type="date" id="start_date" name="start_date">
+
+                    <label for="end_date">End date:</label>
+                    <input type="date" id="end_date" name="end_date">
+                    <button type="submit">Download Password Changes</button>
+                </form>
+        {% endif %}
+            <p>Welcome, {{ user.username }}</p>
+    </div>
+
+    <h1>Welcome to the Good Driver Rewards Program</h1>
+    {% if user.is_authenticated %}
+        <p>Hello, {{user.first_name}} {{user.last_name}}</p>
+    {% else %}
+    <p>This is a short summary of the Good Driver Rewards Program</p>
+    {% endif %}
+
+    <form method="GET" action="{% url 'gdrp:dash_driver' %}">
+        <button type="submit">Driver view</button>
+    </form>
+    <form method="GET" action="{% url 'gdrp:dash_sponsor' %}">
+        <button type="submit">Sponsor view</button>
+    </form>
+
+  {% endblock %}

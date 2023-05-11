@@ -1,0 +1,45 @@
+Django
+Python based
+Good for a lot of data in a web application
+Built in ORM
+ 
+Webapp infrastructure
+https://aws.amazon.com/getting-started/guides/deploy-webapp-decision/
+ 
+Really helpful document for choosing^^^
+ 
+Database technologies
+ 
+one to one - where one table record relates to another record in another table
+one to many - where one table record relates to multiple records in another table
+many to one - where more than one table record relates to another table record
+many to many - where multiple records relate to more than one record in another table
+ 
+I would suggest MySQL because it’s free and easier to use or SQLite
+ 
+Python MySQL
+ 
+How to install driver:
+https://www.w3schools.com/python/python_mysql_getstarted.asp#:~:text=Python%20needs%20a%20MySQL%20driver,installed%20in%20your%20Python%20environment.
+ 
+Set up:
+https://www.youtube.com/watch?v=3vsC05rxZ8c
+ 
+elastic beanstalk research
+Supports both Go and Python
+Uses Amazon Linux AMI and the Windows Server AMI
+ 
+AWS Knowledge
+ 
+Took the class and had a refresher in class the other day, but here is a guide to help get you started:
+ 
+https://intellipaat.com/blog/what-is-aws-architecture/
+ 
+Go
+Optional concise variable declaration and initialization through type inference (x := 0 instead of int x = 0; or var x = 0;)
+Quick compilation processes
+Remote package management!!!
+Containerization
+ 
+https://aws.amazon.com/what-is/containerization/
+

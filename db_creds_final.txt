@@ -1,0 +1,9 @@
+username:
+admin
+password:
+qFAJzUS8H4cmT9IN5kqC
+endpoint:
+team04-database3.cobd8enwsupz.us-east-1.rds.amazonaws.com
+
+eb sec group:
+sg-0cc853c361e4f5dbf

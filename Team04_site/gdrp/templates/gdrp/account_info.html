@@ -1,0 +1,16 @@
+{% extends 'gdrp/base.html' %}
+
+{% block content %}
+
+<h3>{{ user.first_name }} {{ user.last_name }}</h3>
+<p>Points: {{ user.profile.points }}</p>
+<p>Email: {{ user.email }}
+<p>Phone: {{ user.profile.phone }}</p>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save</button>
+</form>
+
+{% endblock %}

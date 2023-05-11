@@ -1,0 +1,86 @@
+{% extends 'gdrp/base.html'%}
+{% load auth_extras %}
+{% block content %}
+
+{% if messages %}
+    {% for message in messages %}
+    <div class="alert alert0{{ message.tags }} alert-dismissable fade show" role="alert">
+        {{ message }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {% endfor %}
+{% endif %}
+
+<form action="{% url 'gdrp:catalog' catalog.id %}"method="GET">
+    {% csrf_token %}
+    <label for="search">Search:</label>
+    <input type="text" name="q" value="" placeholder="Search Catalog">
+    <input type="submit" value="Filter">
+</form>
+
+<div class="item-list">
+<ul>
+{% for product in products %}
+    <li class="item-list">
+        <h3>{{ product.name }}</h3>
+        {% if product.image %}
+            <img src="{{ product.image }}" alt="{{ product.name }}">
+        {% endif %}
+        <h3>{{ product.id }}</h3>
+        <p>{{ product.catagories }}</p>
+        <p>{{ product.price_points }}</p>
+
+        <form action="{% url 'gdrp:product' product.id %}" method="GET">
+            {% csrf_token %}
+            <button type="submit" class="item-list">View</button>
+        </form>
+
+        {% if user|has_group:"Sponsors" %}
+        <form method="POST" action="{% url 'gdrp:remove_item' %}">
+            {% csrf_token %}
+            <input type="hidden" name="item_id" value="{{ product.id }}">
+            <input type="hidden" name="cat_id" value="{{ catalog.id }}">
+            <input type="hidden" name="next" value="{{ request.path }}?page={{ current_page }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">
+            <button type="submit" class="item-list">Remove Item</button>
+        </form>
+        {% endif %}
+
+        <form method="POST" action="{% url 'gdrp:single_buy' %}">
+            {% csrf_token %}
+            <input type="hidden" name="item_id" value="{{ product.id }}">
+            <input type="hidden" name="next" value="{{ request.path }}?page={{ current_page }}{% if request.GET.q %}?q={{ request.GET.q }}{% endif %}">
+            <button type="submit" class="item-list">Instant Purchase</button>
+        </form>
+    </li>
+
+{% empty %}
+    <li> no products </li>
+{% endfor %}
+</ul>
+</div>
+
+<br class="clear" />
+
+<div class="fixed-bottom" aria-label="Catalog pagination">
+    <span class="pagination justify-content-center">
+        <ul class="page-item">
+        {% if products.has_previous %}
+            <li class="page-item"><a class="pagination-action" href="?page=1{% if request.GET.q %}&q={{ request.GET.q}}{% endif %}">&laquo; first</a></li>
+            <li class="page-item"><a class="pagination-action" href="?page={{ products.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">previous</a></li>
+        {% endif %}
+
+        <li class="current">
+            Page {{ products.number }} of {{ products.paginator.num_pages }}.
+        </li>
+
+        {% if products.has_next %}
+            <li class="page-item"><a class="pagination-action" href="?page={{ products.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">next</a></li>
+            <li class="page-item"><a class="pagination-action" href="?page={{ products.paginator.num_pages}}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">last &raquo;</a></li>
+        {% endif %}
+        </ul>
+    </span>
+</div>
+
+{% endblock %}

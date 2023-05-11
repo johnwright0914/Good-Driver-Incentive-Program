@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+{% load static %}
+{% load auth_extras %}
+
+<html>
+<head>
+  <title>Good Driver Incentive Program</title>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <link rel="stylesheet" href="{% static 'gdrp/style.css' %}" type="text/css" media="screen,projection" />
+  
+  <style>
+    /* Dropdown button */
+    .dropbtn {
+      display: inline-block;
+      color: white;
+      text-align: center;
+      padding: 14px 16px;
+      text-decoration: none;
+    }
+    /* Styles for light mode */
+    body {
+      background-color: #fff;
+      color: #000;
+      transition: background-color 0.5s ease;
+    }
+    
+    /* Styles for dark mode */
+    body.dark {
+      background-color: #333;
+      color: #fff;
+    }
+    
+    /* Dropdown content (hidden by default) */
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #f9f9f9;
+      z-index: 1;
+    }
+    
+    /* Links inside the dropdown */
+    .dropdown-content a {
+      color: black;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+      text-align: left;
+    }
+    
+    /* Change color of dropdown links on hover */
+    .dropdown-content a:hover {
+      background-color: #f1f1f1
+    }
+    
+    /* Show the dropdown menu on hover */
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+  </style>
+  <script>
+    // Toggle between light and dark mode
+    function toggleDarkMode() {
+      const body = document.body;
+      body.classList.toggle('dark');
+    }
+  </script>
+</head>
+<body>
+  <div id="container">
+    <div id="header">
+      <h1> 
+        <img src="https://media.giphy.com/media/bjrff7JMIQr9WD3B7E/giphy.gif" alt="My GIF" style="width: 100px; height: 100px; padding: None;">
+        <a href="#">Good Driver Incentive Program</a>
+      </h1>
+      <h3>We love our drivers!</h3>
+    </div>
+   
+    <ul id="nav">
+      {% if user|has_group:"admin"%}
+        <li><a href="{% url 'gdrp:dash_admin' %}" class="active">Home</a></li>
+      {% elif user|has_group:"Sponsors" %}
+        <li><a href="{% url 'gdrp:dash_sponsor' %}" class="active">Home</a></li>
+      {% elif user|has_group:"Drivers" %}
+        <li><a href="{% url 'gdrp:dash_driver' %}" class="active">Home</a></li>
+      {% else %}
+        <li><a href="{% url 'gdrp:dashboard' %}" class="active">Home</a></li>
+      {% endif %}
+      <li><a href="{% url 'gdrp:about' %}">About</a></li>
+      <li class="dropdown">
+        <a class="dropbtn">Catalog</a>
+        <div class="dropdown-content">
+          {% for catalog in catalogs_sponsor %}
+            <a href="{% url 'gdrp:catalog' catalog.id %}">Catalog {{ catalog.id }}</a>
+          {% endfor %}
+        </div>
+      </li>
+      <li class="dropdown">
+          <a class="dropbtn">Account</a>
+              <div class="dropdown-content">
+              <a href="{% url 'gdrp:change_pass' %}">Change Password</a>
+              <a href="{% url 'gdrp:logout' %}">Logout</a>
+              <a href="{% url 'gdrp:account_info' %}">View Account Information</a>
+              </div>
+      </li>
+      <li class="dropdown">
+          <a class="dropbtn">Login</a>
+              <div class="dropdown-content">
+              <a href="{% url 'gdrp:admin_login' %}">Admin login</a>
+              <a href="{% url 'gdrp:sponsor_login' %}">Sponsor login</a>
+              <a href="{% url 'gdrp:driver_login' %}">Driver login</a>
+              </div>
+      </li>
+      <li class="dropdown">
+          <a class="dropbtn">Create Account</a>
+              <div class="dropdown-content">
+              <a href="{% url 'gdrp:create_admin' %}">Admin Account</a>
+              <a href="{% url 'gdrp:create_sponsor' %}">Sponsor Account</a>
+              <a href="{% url 'gdrp:create_driver' %}">Driver Account</a>
+              </div>
+      </li>
+      <li><a href="{% url 'gdrp:contact' %}">Contact</a></li>
+      <li><a href="{% url 'gdrp:tos'%}">Terms Of Service</a></li>
+      <li><a href="{% url 'gdrp:privacy_policy' %}">Privacy Policy</a></li>
+      {% if user|has_group:"Sponsors"%}
+          <li class="dropdown">
+              <a href="#" class="dropbtn">Sponsors</a>
+              <div class="dropdown-content">
+              <a href="{% url 'gdrp:ebay_search' %}">Build Catalog</a>
+              <a href="{% url 'gdrp:user_list' %}">Users Control Panel</a>
+              <a href="{% url 'gdrp:edit_catalogs' %}">Edit Catalogs</a>
+              </div>
+          </li>
+      {% endif %}
+      {% if user|has_group:"admin" %}
+          <li class="dropdown">
+              <a href="#" class="dropbtn">Admin</a>
+              <div class="dropdown-content">
+              <a href="{% url 'gdrp:user_list' %}">Users Control Panel</a>
+              <a href="{% url 'gdrp:create_sponsor' %}">Create a Sponsor</a>
+              <a href="{% url 'gdrp:reports_logs' %}">Logs and Reports</a>
+              <a href="{% url 'gdrp:edit_catalogs' %}">Edit Catalogs</a>
+              </div>
+          </li>
+      {% endif %}
+      <li><button onclick="toggleDarkMode()">Toggle Dark Mode</button></li>
+
+      <br class="clear" />
+</body>
+
+{% block content %}
+{% endblock %}

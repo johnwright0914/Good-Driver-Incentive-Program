@@ -1,0 +1,13 @@
+{% extends 'gdrp/base.html' %}
+
+{% block content %}
+
+<h3> Create new Sponsor </h3>
+
+<form method="POST">
+    {% csrf_token %}
+    <input type="text" name="name" placeholder="Enter Sponsor Company Name">
+    <button type="submit">Create Sponsor</button>
+</form>
+
+{% endblock %}

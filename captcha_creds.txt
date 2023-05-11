@@ -1,0 +1,5 @@
+Captcha keys
+Site key:
+6LdTW78kAAAAAIOh9JbumpjvHlcgQqub7vLf1XE6
+Secret Key:
+6LdTW78kAAAAALxABd13Nvn0v623HXcacxvRV8iY

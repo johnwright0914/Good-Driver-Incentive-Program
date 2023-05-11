@@ -1,0 +1,55 @@
+{% extends 'gdrp/base.html' %}
+{% load auth_extras %}
+{% load static %}
+
+{% block content %}
+<h1>{{ product.name }}</h1>
+
+<img src="{{ product.image }}" alt="{{ product.name }}">
+{% if user|has_group:"Admin" %}
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <label for="{{ form.image.auto_id }}">New Image:</label>
+    <input type="file" name="{{ form.image.html_name }}" id="{{ form.image.auto_id }}">
+    <input type="submit" value="Upload">
+</form>
+{% endif %}
+
+
+<span>{{ product.description|safe }}</span>
+
+
+{% if user|has_group:"Admin" or user|has_group:"Sponsor" %}
+<form method="post">
+    <label for="category">Category:</label>
+    <select name="category" id="category">
+        {% for category in categories %}
+            <option value="{{ category.pk }}">{{ category.name }}</option>
+        {% endfor %}
+    </select>
+    <input type="submit" value="Save">
+</form>
+{% endif %}
+
+{% if user|has_group:"Admin" %}
+<form method="POST">
+    {% csrf_token %}
+    <label for="inventory">Stock:</label>
+    <input type="number" name="inventory" value="{{ object.inventory }}">
+    <input type="submit" value="Update">
+</form>
+{% else %}
+<p>Stock: {{ product.inventory }}</p>
+{% endif %}
+
+
+<p>Points: {{ product.price_points }}</p>
+<div class="item-list">
+<form method="POST" action="{% url 'gdrp:add_to_order' %}">
+    {% csrf_token %}
+    <input type="hidden" name="item_id" value="{{ product.id }}">
+    <input type="hidden" name="next" value="{{ request.path }}">
+    <button type="submit" class="item-list">Add to Cart</button>
+</form>
+</div>
+{% endblock %}

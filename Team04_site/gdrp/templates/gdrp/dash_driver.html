@@ -1,0 +1,63 @@
+{% extends 'gdrp/base.html' %}
+{% load auth_extras %}
+{% load static %}
+{% block content %}
+<h1>Welcome to the Good Driver Rewards Program</h1><br line-height=10px />
+{% if user.is_authenticated %}
+{% if message %}
+<p>{{ message }}</p>
+{% endif %}
+    <h3>Hello Driver</h3>
+{% endif %}
+{% if user.is_authenticated %}
+    <p>Welcome, {{user.first_name}} {{user.last_name}}</p><br line-height=10px />
+    <p>Points: {{ user.profile.points}}</p><br line-height=10px />
+{% else %}
+<p>This is a short summary of the Good Driver Rewards Program</p>
+{% endif %}
+
+<div>
+    <h3>
+        {{ promotion_list|length }} Promotions Available
+    </h3>
+    {% if user|has_group:"Admin" %}
+    <a href="{% url 'gdrp:promo_create' %}"><button>Add Promotions</button></a>
+    {% endif %}
+    <div class="promotion-window">
+        <dl id="promotion-list">
+            {% for p in promotion_list %}
+                <dt>{{ p.name }}</dt>
+                <dd>{{ p.description }}</dd>
+                <dd>{{ p.multiplier }}</dd>
+            {% endfor %}
+        </dl>
+    </div>
+</div>
+
+{% if user|has_group:"Drivers" or "admin" %}
+<div>
+    <p>Fee due: $<span id="due_fee"></span></p>
+    <input type="date" id="fee_start" name="fee_start">
+    <label for="fee_start">Fee Start Range</label><br>
+    <input type="date" id="fee_end" name="fee_end">
+    <label for="fee_end">Fee End Range</label><br>
+    <script>
+        // script to Show fee due
+        // Currently no logic, only 0
+        document.getElementById("due_fee").innerHTML = 0.00.toFixed(2)
+    </script>
+    
+</div>
+{% endif %}
+<br line-height=25px />
+{% if user|has_group:"Sponsors" %}
+<form method="GET" action="{% url 'gdrp:dash_sponsor' %}">
+    <button type="submit">Sponsor view</button>
+</form>
+{% elif user|has_group:"admin" %}
+<form method="GET" action="{% url 'gdrp:dash_admin' %}">
+    <button type="submit">Admin view</button>
+</form>
+{% endif %}
+
+{% endblock %}

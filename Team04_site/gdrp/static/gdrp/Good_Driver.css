@@ -1,0 +1,72 @@
+.login-form {
+	text-align: center;
+	background-color: grey;
+	
+}
+
+table {
+	width: 100%;
+	border: 1px solid grey;
+	background-color: grey;
+	color: white;
+	font-size: 30px;
+	
+}
+
+a:link {
+	color: white;
+	text-decoration: none;
+}
+
+a:visited {
+	color: lightgray;
+	text-decoration: none;
+}
+
+a:hover {
+	color: orange;
+	text-decoration: none;
+}
+
+h1 {
+	color: grey;
+	text-align: center;
+}
+
+p {
+	background-color: grey;
+	color: white;
+	text-align: center;
+}
+
+p1 {
+	color: grey;
+	font-size: 20px;
+}
+
+p2 {
+	color: white;
+	font-size: 20px;
+	text-align: center;
+}
+
+div {
+	text-align: center;
+}
+
+footer {
+
+	background-color: orange;
+	text-align: center;
+	vertical-align: bottom;
+}
+p5 {
+	
+	color: grey;
+	font-size: 15px;
+	
+}
+
+form {
+	text-align: center;
+}

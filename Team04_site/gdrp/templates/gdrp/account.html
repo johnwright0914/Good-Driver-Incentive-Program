@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+  <title>Good Driver Incentive Program</title>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <link rel="stylesheet" href="{% static 'gdrp/style.css' %}" type="text/css" media="screen,projection" />
+  
+  <style>
+    /* Dropdown button */
+    .dropbtn {
+      display: inline-block;
+      color: white;
+      text-align: center;
+      padding: 14px 16px;
+      text-decoration: none;
+    }
+    
+    /* Dropdown content (hidden by default) */
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #f9f9f9;
+      z-index: 1;
+    }
+    
+    /* Links inside the dropdown */
+    .dropdown-content a {
+      color: black;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+      text-align: left;
+    }
+    
+    /* Change color of dropdown links on hover */
+    .dropdown-content a:hover {
+      background-color: #f1f1f1
+    }
+    
+    /* Show the dropdown menu on hover */
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="container">
+    <div id="header">
+      <h1><a href="#">Good Driver Incentive Program</a></h1>
+      <h3>We love our drivers!</h3>
+    </div>
+
+    <ul id="nav">
+      <li><a href="{% url 'gdrp:dashboard' %}" class="active">Home</a></li>
+      <li><a href="{% url 'gdrp:about' %}">About</a></li>
+      <li><a href="{% url 'gdrp:catalog' 1 %}">Catalog</a></li>
+      <li class="dropdown">
+        <a href="#" class="dropbtn">Account</a>
+        <div class="dropdown-content">
+          <a href="{% url 'gdrp:change_pass' %}">Change Password</a>
+          <a href="{% url 'gdrp:logout' %}">Logout</a>
+          <a href="#">View Account Information</a>
+        </div>
+      </li> 
+      <li><a href="{% url 'gdrp:contact' %}">Contact</a></li>
+      <li><a href="{% url 'gdrp:termsofservice'%}">Terms Of Service</a></li>
+      <li><a href="{% url 'gdrp:privacypolicy' %}">Privacy Policy</a></li>
+      <li><a href="{% url 'gdrp:Good_Driver.Admin_Login' %}">Admin login</a></li>
+      <li><a href="{% url 'gdrp:Good_Driver.Driver_Login' %}">Driver login</a></li>
+      <li><a href="{% url 'gdrp:Good_Driver.Sponsor_Login' %}">Sponsor login</a></li>
+    </ul>
+
+    <br class="clear" />
+    
+    
+
+    <div id="content">
+      <h1><a href="#" id="intro"></a>Vehicle Entry Information</h1>
+
+      <label for="make">Make:</label>
+      <input type="text" id="make" name="make">
+
+      <label for="model">Model:</label>
+      <input type="text" id="model" name="model">
+
+      <label for="year">Year:</label>
+      <input type="number" id="year" name="year" min="1900" max="2099" step="1">
+
+      <label for="color">Color:</label>
+      <input type="text" id="color" name="color">
+
+      <label for="mileage">Mileage:</label>
+      <input type="number" id="mileage" name="mileage" min="0" max="999999" step="1">
+    </div>
+    
+    <div id="content">
+      <h1><a href="#" id="intro"></a>Points Available</h1
+  <div id="footer">
+  </div>
+</body>
+</html>

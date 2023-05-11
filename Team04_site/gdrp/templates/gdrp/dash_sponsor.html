@@ -1,0 +1,65 @@
+{% extends 'gdrp/base.html' %}
+{% load auth_extras %}
+{% block content %}
+{% if user.is_authenticated %}
+    {% if message %}
+    <p>{{ message }}</p>
+    {% endif %}
+    {% if user|has_group:"Drivers" %}
+        <p>Hello Driver</p>
+    {% elif user|has_group:"Sponsors" %}
+        <p>Hello Sponsor</p>
+    {% elif user|has_group:"admin" %}
+        <p>Hello Admin</p>
+    {% else %}
+        <p>You do not have a user group please contact site admin</p>
+    {% endif %}
+    <p>Welcome, {{ user.username }}</p>
+{% endif %}
+
+
+<h1>Welcome to the Good Driver Rewards Program</h1>
+{% if user.is_authenticated %}
+    <p>Hello, {{user.first_name}} {{user.last_name}}</p>
+    {% if user|has_group:"Drivers" %}
+        <p>Points: {{ user.profile.points}}
+    {% endif %}
+{% else %}
+<p>This is a short summary of the Good Driver Rewards Program</p>
+{% endif %}
+
+<h3> Driver applications awaiting approval</h3>
+{% for application in applications %}
+    {{ application.user }}
+    <form method="POST" action="{% url 'gdrp:approve_application' %}">
+            {% csrf_token %}
+            <input type="hidden" name="user" value="{{ application.user.id }}">
+            <button type="submit">Approve</button>
+    </form>
+{% endfor %}
+
+<h3>Change catalog point conversion rate</h3>
+<form method="POST" action="{% url 'gdrp:change_conv_rate' %}">
+    {% csrf_token %}
+    <label for="catalog">CatalogID:</label>
+    <select name="cat_id" id="cat_id">
+        {% for catalog in catalogs %}
+            <option value="{{ catalog.id }}">{{ catalog.id }}</option>
+        {% endfor %}
+    </select>
+    <input type="number" step="0.0001"  min=0 name="new_rate">
+    <input type="hidden" name="next" value="{{ request.path }}">
+    <button type="submit">change rate</button>
+</form>
+
+<form method="GET" action="{% url 'gdrp:dash_driver' %}">
+    <button type="submit">Driver view</button>
+</form>
+
+{% if user|has_group:"admin" %}
+<form method="GET" action="{% url 'gdrp:dash_admin' %}">
+    <button type="submit">Admin view</button>
+</form>
+{% endif %}
+
+{% endblock %}

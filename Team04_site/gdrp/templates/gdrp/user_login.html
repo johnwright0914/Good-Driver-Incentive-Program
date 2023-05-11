@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <title>Login | Tiger Orders</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+
+  <!-- Custom fonts for this template -->
+  <link href="{% static 'vendor/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
+
+  <!-- Custom styles for this template -->
+  <link href="{% static 'css/sb-admin.css' %}" rel="stylesheet">
+</head>
+
+<!-- need to add login url for this function-->
+<form method="post" action="{% url 'login' %}">
+  {% csrf_token %}
+  <div class="form-group">
+      <label for="usernameInput">Username</label>
+      <input class="form-control" id="usernameInput" name="usernameInput" type="text" placeholder="Enter username" autofocus>
+  </div>
+  <div class="form-group">
+      <label for="passwordInput">Password</label>
+      <input class="form-control" id="passwordInput" name="passwordInput" type="password" placeholder="Password">
+  </div>
+  <button class="btn btn-primary btn-block" type="submit">Login</button>
+</form>
+
+<body class="bg-dark">
+  <div class="container">
+    <div class="card card-login mx-auto mt-5">
+      <div class="card-header">Login Page</div>
+      <div class="card-body">
+
+        {% if error %}
+          <p class="text-danger">Sorry! We couldn't find an account with the information you provided.</p>
+        {% endif %}
+
+        <form method="post">
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="usernameInput">Username</label>
+            <input class="form-control" id="usernameInput" name="usernameInput" type="text" placeholder="Enter username" autofocus>
+          </div>
+
+          <div class="form-group">
+            <label for="passwordInput">Password</label>
+            <input class="form-control" id="passwordInput" name="passwordInput" type="password" placeholder="Password">
+          </div>
+
+          <button class="btn btn-primary btn-block" type="submit">Login</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="text-center my-3">
+      <p>Don't have an account? <a href="{% url 'gdrp:create_account' %}">Create Account</a></p>
+      <p>Forgot password? <a href="{% url 'gdrp:password_reset' %}">Reset Password</a></p>
+      <a href="#" onclick="signOut();">Sign out</a>
+    </div>
+
+    <div class="text-center">
+      <div class="g-signin2" data-onsuccess="onSignIn"></div>
+      <script src="https://apis.google.com/js/platform.js" async defer></script>
+      <meta name="google-signin-client_id" content="'707081518512-efqnpuod4o1aoqnd8un716s67i5g71i3.apps.googleusercontent.com'">
+
+      <a href="{% url 'gdrp:tos' %}">Terms of Service</a><br>
+      <a href="{% url 'gdrp:privacy_policy' %}">Privacy Policy</a>
+    </div>
+
+  </div>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+  <!-- Core plugin JavaScript -->
+  <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+
+
+	<!-- Google Sign In Logic -->
+	<script>
+  function onSignIn(googleUser) {
+    var profile = googleUser.getBasicProfile();
+    console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+    console.log('Name: ' + profile.getName());
+    console.log('Image URL: ' + profile.getImageUrl());
+    console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+    var id_token = googleUser.getAuthResponse().id_token;
+    console.log("ID Token: " + id_token);
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/google-login/');
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onload = function() {
+      console.log('Signed in as: ' + xhr.responseText);
+    };
+    xhr.send('idtoken=' + id_token);
+  }
+
+  function signOut() {
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+      console.log('User signed out.');
+    });
+  }
+</script>
+</body>
+</html>

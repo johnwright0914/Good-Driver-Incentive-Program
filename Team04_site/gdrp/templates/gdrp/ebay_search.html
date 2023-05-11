@@ -1,0 +1,74 @@
+{% extends 'gdrp/base.html' %}
+{% load static %}
+{% block content %}
+
+
+<form action="{% url 'gdrp:auth' %}" method="post">
+    {% csrf_token %}
+    <button type="submit">Authorize eBay use</button>
+</form>
+
+<form action="{% url 'gdrp:ebay_search' %}" method="GET">
+    <input type="text" name="q" placeholder="Search Ebay">
+    <button type="submit">Search</button>
+</form>
+
+{% if items %}
+<div class="item-list">
+<ul>
+    {% for item in items %}
+    <li>
+        <h3>{{ item.title }}</h3>
+        {% if item.image %}
+        <img src="{{ item.image.imageUrl }}" alt="{{ item.image.imageUrl }}">
+        {% endif %}
+        {% for spec in item.itemSpecifics.nameValueList %}
+            <p>{{ spec.name }}:{{ spec.value}}</p>
+        {% endfor %}
+        <p>{{ item.itemSpecifics.nameValueList }}</p>
+        <p>Price: {{ item.price.value }} {{ item.price.currency }}</p>
+        <form action="{% url 'gdrp:add_to_catalog' %}" method="POST">
+            {% csrf_token %}
+            <input type="number" id="cat_id" name="cat_id" value="1" min="1" max="20">
+            <input type="hidden" name="item_id" value="{{ item.itemId }}">
+            <input type="hidden" name="item_name" value="{{ item.title }}">
+            <input type="hidden" name="item_desc" value="{{ item.Description }}">
+            <input type="hidden" name="price" value="{{ item.price.value }}">
+            <input type="hidden" name="quantity" value="{{ item.estimatedAvailabilities }}">
+            <input type="hidden" name="image" value="{{ item.image.imageUrl }}">
+            <input type="hidden" name="category" value="{{ item.categoryPath }}">
+            <input type="hidden" name="user_id" value="{{ user.id }}">
+            <input type="hidden" name="next" value="{{ request.path }}?page={{ current_page }}{% if request.GET.q %}&q={{ request.GET.q}}{% endif %}">
+            <button type="submit" class="item-list">Add to Catalog</button>
+        </form>
+    </li>
+    {% endfor %}
+</div>
+</ul>
+
+<br class="clear" />
+
+<div class="fixed-bottom" aria-label="Catalog pagination">
+    <span class="pagination justify-content-center">
+        <ul class="page-item">
+        {% if items.has_previous %}
+            <li class="page-item"><a class="pagination-action" href="?page=1{% if request.GET.q %}&q={{ request.GET.q}}{% endif %}">&laquo; first</a></li>
+            <li class="page-item"><a class="pagination-action" href="?page={{ items.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">previous</a></li>
+        {% endif %}
+
+        <li class="current">
+            Page {{ items.number }} of {{ items.paginator.num_pages }}.
+        </li>
+
+        {% if items.has_next %}
+            <li class="page-item"><a class="pagination-action" href="?page={{ items.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">next</a></li>
+            <li class="page-item"><a class="pagination-action" href="?page={{ items.paginator.num_pages}}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">last &raquo;</a></li>
+        {% endif %}
+        </ul>
+    </span>
+</div>
+
+{% else %}
+<p>No results found.</p>
+{% endif %}
+{% endblock %}

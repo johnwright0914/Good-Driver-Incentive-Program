@@ -1,0 +1,28 @@
+{% extends 'gdrp/base.html' %}
+
+{% load auth_extras %}
+{% load static %}
+
+{% block content %}
+<head>
+</head>
+<body>
+    <div class="header">
+        <h1>Good Driver Rewards Program</h1>
+    </div>
+    <div class="title">
+        <h2>Promotion Creation</h2>
+    </div>
+
+
+    {% if user|has_group:"Admin" %}
+    <form action="#" method="post">
+        {% csrf_token %}
+        <p>Add New Incentive</p>
+        {{ form.as_p }}
+        <input type="submit" class="btn" value="submit" name="promobtn">
+    </form>
+    {% endif %}
+</body>
+
+{% endblock %}

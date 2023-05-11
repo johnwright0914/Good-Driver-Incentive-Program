@@ -1,0 +1,88 @@
+{% extends 'gdrp/base.html' %}
+
+{% block content %}
+<html>
+<head>
+    <title>Download Logs or Reports</title>
+</head>
+<body>
+    <h1>Download Logs or Reports</h1>
+    <form action="{% url 'gdrp:download_password_changes' %}" method="get">
+        {% csrf_token %}
+      <label for="login_attempts">Password Changes:</label>
+        <select name="report_type">
+            <option value="csv">CSV</option>
+            <option value="report">Report</option>
+        </select>
+        <label for="start_date">Start Date:</label>
+        <input type="date" name="start_date">
+        <label for="end_date">End Date:</label>
+        <input type="date" name="end_date">
+        <button type="submit">Download Password Changes</button>
+    </form>
+
+    <form action="{% url 'gdrp:download_login_attempts' %}" method="get">
+        {% csrf_token %}
+        <label for="login_attempts">Login Attempts:</label>
+        <select name="report_type">
+            <option value="csv">CSV</option>
+            <option value="report">Report</option>
+        </select>
+        <label for="start_date">Start Date:</label>
+        <input type="date" name="start_date">
+        <label for="end_date">End Date:</label>
+        <input type="date" name="end_date">
+        <button type="submit">Download Login Attempts</button>
+    </form>
+
+    <form action="{% url 'gdrp:download_account_creations' %}" method="get">
+        {% csrf_token %}
+        <label for="account_creations">Account Creations:</label>
+        <select name="report_type">
+            <option value="csv">CSV</option>
+            <option value="report">Report</option>
+        </select>
+        <label for="start_date">Start Date:</label>
+        <input type="date" name="start_date">
+        <label for="end_date">End Date:</label>
+        <input type="date" name="end_date">
+        <button type="submit">Download Account Creations</button>
+    </form>
+
+    <form action="{% url 'gdrp:download_application_sent' %}" method="get">
+        {% csrf_token %}
+        <label for="application_sent">Application Sent:</label>
+        <select name="report_type">
+            <option value="csv">CSV</option>
+            <option value="report">Report</option>
+        </select>
+        <label for="start_date">Start Date:</label>
+        <input type="date" name="start_date">
+        <label for="end_date">End Date:</label>
+        <input type="date" name="end_date">
+        <button type="submit">Download Application Sent</button>
+    </form>
+
+    <form action="{% url 'gdrp:download_account_deletions' %}" method="get">
+        {% csrf_token %}
+        <label for="account_deletions">Account Deletions:</label>
+        <select name="report_type">
+            <option value="csv">CSV</option>
+            <option value="report">Report</option>
+        </select>
+        <label for="start_date">Start Date:</label>
+        <input type="date" name="start_date">
+        <label for="end_date">End Date:</label>
+        <input type="date" name="end_date">
+        <button type="submit">Download Account Deletions</button>
+    </form>
+
+    <form action="{% url 'gdrp:download_pdf' %}" method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="filename" value="{{ item.id }}.pdf">
+        <button type="submit">Download PDF</button>
+    </form>
+
+</body>
+</html>
+{% endblock %}

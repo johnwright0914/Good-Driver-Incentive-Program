@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+{% load static %}
+{% load auth_extras %}
+<html>
+<head>
+  <title>{% block title %}Good Driver Incentive Program{% endblock %}</title>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <link rel="stylesheet" href="{% static 'gdrp/style.css' %}" type="text/css" media="screen,projection" />
+  
+  <body>
+  <div id="container">
+    <div id="header">
+      <h1><a href="#">Good Driver Incentive Program</a></h1>
+      <h3>We love our drivers!</h3>
+    </div>
+
+<html>
+<head>
+	<link rel = "stylesheet" href = "Good_Driver.css">
+</head>
+<body>
+
+<div>
+	<h1>Welcome to the Admin Account Creation Page!</h1>
+	<p2>
+		<form action="dash_admin.html" method="post">
+			username(email): <input type="text" name="email"><br>
+			<br>password: <input type="password" name="password" minlength="8" pattern="(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]"><br>
+			<br>confirm password: <input type="password" name="confirm password" minlength="8" pattern="(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]"><br>
+			<input type="hidden" name="message" value="Account successfully created">
+			<br><input type="submit" value="Submit">
+		</form>
+	</p2>
+</div>
+<div>
+    <a href="{% url 'gdrp:tos' %}">Terms of Service</a><br>
+    <a href="{% url 'gdrp:privacy_policy' %}">Privacy Policy</a>
+</div>

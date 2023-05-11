@@ -1,0 +1,58 @@
+{% extends 'gdrp/base.html' %}
+
+{% block content %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Join Sponsor Application</title>
+    <style>
+      /* Basic styling for the form */
+      form {
+        width: 50%;
+        margin: auto;
+        font-size: 1.2rem;
+      }
+
+      label {
+        display: block;
+        margin-top: 10px;
+      }
+
+      input[type="submit"] {
+        margin-top: 30px;
+        font-size: 1.2rem;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      input[type="submit"]:hover {
+        background-color: #0062cc;
+      }
+    </style>
+    
+  </head>
+  <body>
+    <form action="submit-form" method="POST">
+      <label for="years-driving-experience">
+        How many years of driving experience do you have? (number only)
+        <input type="number" name="years-driving-experience" id="years-driving-experience" required />
+      </label>
+
+      <label for="why-good-driver">
+        Why do you think you would be a good driver for us to sponsor?
+        <textarea name="why-good-driver" id="why-good-driver" rows="5" required></textarea>
+      </label>
+
+      <label for="accident-history">
+        We will lookup your accident history. Is there anything you want to explain now before we find it? (Yes or no, if yes, explain why below)
+        <textarea name="accident-history" id="accident-history" rows="5" required></textarea>
+      </label>
+
+      <input type="submit" value="Submit Application" />
+    </form>
+  </body>
+</html>

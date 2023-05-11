@@ -1,0 +1,5 @@
+#ignore pychache files in git 
+*.pyc
+*.zip
+*.csv
+Team04_site/*.csv
